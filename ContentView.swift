@@ -9,10 +9,10 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            TextField("Pon tu nombre", text: $name)
+            TextField("Insert your name", text: $name)
                 .padding(50)
                 .foregroundColor(validName ? .green : .red)
-            TextField ("Pon tu apellido", text: $lastname)
+            TextField ("Insert your lastname", text: $lastname)
                 .padding(50)
                 .foregroundColor(validLastname ? .green : .red)
             Button("Botón") {
