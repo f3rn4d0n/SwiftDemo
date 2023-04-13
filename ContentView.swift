@@ -15,7 +15,7 @@ struct ContentView: View {
             TextField ("Insert your lastname", text: $lastname)
                 .padding(50)
                 .foregroundColor(validLastname ? .green : .red)
-            Button("Botón") {
+            Button("Button") {
                 print("Hola \(name) \(lastname)")
                 print("Hola" + name + " " + lastname)
                 validName = name.count > 10
