@@ -53,7 +53,6 @@ struct ContentView: View {
                         Spacer()
                         Text("¿Olvidaste tu contraseña?")
                             .font(.footnote)
-                        
                     }
                     Button("Iniciar Sesion"){
                         loginSuccess = Logica().validateCredentials(email: name, password: password, stored: saveCredentials)
