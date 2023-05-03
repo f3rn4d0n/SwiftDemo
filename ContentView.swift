@@ -5,7 +5,9 @@ struct ContentView: View {
     @State var name: String = ""
     @State var validName: Bool = true
     @State var password: String = ""
-    @State var validLastname: Bool = true
+    @State var validPassword: Bool = true
+    @State var saveCredentials: Bool = false
+    @State var loginSuccess: Bool = false
     
     var body: some View {
         NavigationView{
@@ -15,68 +17,66 @@ struct ContentView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: UIScreen.main.bounds.width)
                 VStack {
-                    HStack {
-                        Text("Insert your name")
-                            .font(.callout)
+                    VStack {
+                        HStack {
+                            Text("Insert your name")
+                                .font(.callout)
+                            Spacer()
+                            
+                        }
+                        TextField("Insert your name", text: $name)
+                            .foregroundColor(validName ? .orange : .cyan)
+                        
+                        Divider()
+                            .frame(height: 2)
+                            .overlay(Color.cyan)
+                        HStack{
+                            Text("Insert your password")
+                                .font(.callout)
+                            Spacer()
+                        }
+                        SecureField ("Insert your password", text: $password)
+                            .foregroundColor(validPassword ? .orange : .cyan)
+                        
+                        Divider()
+                            .frame(height: 2)
+                            .overlay(Color.cyan)
+                    }
+                    HStack{
+                        Toggle("", isOn: $saveCredentials)
+                            .dynamicTypeSize(.medium)
+                            .frame(width: 40, alignment: .leading)
+                            .foregroundColor(.orange)
                         Spacer()
+                        Text("Recordarme")
+                            .font(.footnote)
+                        Spacer()
+                        Text("¿Olvidaste tu contraseña?")
+                            .font(.footnote)
                         
                     }
-                    TextField("Insert your name", text: $name)
-                        .foregroundColor(validName ? .orange : .cyan)
-                    
-                    Divider()
-                        .frame(height: 2)
-                        .overlay(Color.cyan)
-                    HStack{
-                        Text("Insert your password")
-                            .font(.callout)
-                        Spacer()
+                    Button("Iniciar Sesion"){
+                        loginSuccess = Logica().validateCredentials(email: name, password: password, stored: saveCredentials)
                     }
-                    SecureField ("Insert your password", text: $password)
-                        .foregroundColor(validName ? .orange : .cyan)
-                    
-                    Divider()
-                        .frame(height: 2)
-                        .overlay(Color.cyan)
-                }
-                HStack{
-                    Toggle("", isOn: $validLastname)
-                        .dynamicTypeSize(.medium)
-                        .frame(width: 40, alignment: .leading)
-                        .foregroundColor(.orange)
-                    Spacer()
-                    Text("Recordarme")
-                        .font(.headline)
-                    Spacer()
-                    Text("¿Olvidaste tu contraseña?")
-                        .font(.headline)
-                    
-                }
-                
-                Button("Iniciar Sesion"){
-                    validLastname = Logica().validateCredentials(email: name, password: password)
-                }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(.orange)
-                .padding()
-                
-                
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(.orange)
+                }.padding()
                 Spacer()
-                NavigationLink(destination: SecondView(), isActive: $validLastname) {
+                NavigationLink(destination: SecondView(), isActive: $loginSuccess) {
                 }
                 Text("Terminos y condiciones")
-               
-                
             }
-            .navigationTitle("Navigation")
-            .navigationBarTitleDisplayMode(.inline)
-            
-            
+            .onAppear{
+                let credentias = Logica().getCredentials()
+                name = credentias.email
+                password = credentias.password
+                if !name.isEmpty {
+                    saveCredentials = true
+                }
+            }
+            .navigationBarTitleDisplayMode(.large)
         }
     }
-    
-    
-    
 }
 
