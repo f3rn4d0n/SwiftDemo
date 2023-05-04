@@ -24,7 +24,7 @@ struct ContentView: View {
                             Spacer()
                             
                         }
-                        TextField("Insert your name", text: $name)
+                        TextField("Insert your email", text: $name)
                             .foregroundColor(validName ? .orange : .cyan)
                         
                         Divider()
